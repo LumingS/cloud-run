@@ -4,7 +4,7 @@ FROM python:3.10-slim
 ENV PYTHONUNBUFFERED True
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY . ./ #kopiert alle Dateien in cloud-run Ordner in Docker
+COPY . ./ 
   RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \ 
@@ -18,3 +18,4 @@ CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
 # -y fragt Bestätigung
 # texlive \ #latex
 #    lmodern \ #font
+# COPY . ./ #kopiert alle Dateien in cloud-run Ordner in Docker
