@@ -4,14 +4,14 @@ FROM python:3.10-slim
 ENV PYTHONUNBUFFERED True
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY . ./
+COPY . ./ #kopiert alle Dateien in cloud-run Ordner in Docker
   RUN set -eux; \
   apt-get update; \
-  apt-get install -y --no-install-recommends \
-    texlive \
-    lmodern \
-    pandoc \
+  apt-get install -y --no-install-recommends \ # -y fragt Bestätigung
+    texlive \ #latex
+    lmodern \ #font
+    pandoc \ 
   ; \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* # Pakete Quellen löschen
 RUN pip install --no-cache-dir -r requirements.txt
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
