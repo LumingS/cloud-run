@@ -7,11 +7,14 @@ WORKDIR $APP_HOME
 COPY . ./ #kopiert alle Dateien in cloud-run Ordner in Docker
   RUN set -eux; \
   apt-get update; \
-  apt-get install -y --no-install-recommends \ # -y fragt Bestätigung
-    texlive \ #latex
-    lmodern \ #font
+  apt-get install -y --no-install-recommends \ 
+    texlive \ 
+    lmodern \ 
     pandoc \ 
   ; \
   rm -rf /var/lib/apt/lists/* # Pakete Quellen löschen
 RUN pip install --no-cache-dir -r requirements.txt
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+# -y fragt Bestätigung
+# texlive \ #latex
+#    lmodern \ #font
